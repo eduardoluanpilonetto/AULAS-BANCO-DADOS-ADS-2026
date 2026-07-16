@@ -57,3 +57,41 @@ create table ITEM_PEDIDO(
 	constraint FK_ITEM_P1 foreign key (id_pedido) references PEDIDO(id_pedido),
 	constraint FK_ITEM_P2 foreign key (id_produto) references PRODUTO(id_produto)
 )
+
+-- 1. Listar todas as tabelas do banco
+SELECT 
+	TABLE_NAME, 
+	TABLE_TYPE
+FROM   
+	INFORMATION_SCHEMA.TABLES
+WHERE  
+	TABLE_TYPE = 'BASE TABLE'
+ORDER  BY 
+	TABLE_NAME;
+
+-- 2. Ver colunas de uma tabela específica
+SELECT 
+	COLUMN_NAME, 
+	DATA_TYPE, 
+	IS_NULLABLE,
+    CHARACTER_MAXIMUM_LENGTH, 
+	COLUMN_DEFAULT
+FROM   
+INFORMATION_SCHEMA.COLUMNS
+WHERE  
+	TABLE_NAME = 'CLIENTE'
+ORDER  BY 
+	ORDINAL_POSITION;
+	
+-- 3. Ver constraints (PKs e FKs) definidas
+SELECT 
+	tc.CONSTRAINT_NAME,
+	tc.CONSTRAINT_TYPE,
+    tc.TABLE_NAME, 
+	kcu.COLUMN_NAME
+FROM   
+	INFORMATION_SCHEMA.TABLE_CONSTRAINTS tc
+	JOIN   INFORMATION_SCHEMA.KEY_COLUMN_USAGE kcu
+       ON tc.CONSTRAINT_NAME = kcu.CONSTRAINT_NAME
+ORDER  BY
+	tc.TABLE_NAME, tc.CONSTRAINT_TYPE;
