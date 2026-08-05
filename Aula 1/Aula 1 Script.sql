@@ -1,6 +1,6 @@
 create database SISTEMA_VENDAS;
 use SISTEMA_VENDAS;
-create table CATEGORIAS(
+create table CATEGORIA(
 	id_categoria int identity(1,1) not null,
 	nome_categoria varchar(100) not null,
 	descricao varchar(100) null,
@@ -25,7 +25,7 @@ create table PRODUTO(
 	estoque int not null default 0,
 	id_categoria int not null,
 	constraint PK_PRODUTO primary key (id_produto),
-	constraint FK_PROD_CAT foreign key (id_categoria) references CATEGORIAS(id_categoria)
+	constraint FK_PROD_CAT foreign key (id_categoria) references CATEGORIA(id_categoria)
 )
 create table FUNCIONARIO(
 	id_funcionario int identity(1,1) not null,
