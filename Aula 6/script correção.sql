@@ -11,7 +11,7 @@ SELECT nome_produto FROM PRODUTO
 WHERE nome_produto LIKE 'Note%' OR nome_produto LIKE 'Fone%';
 
 -- (c) Emails que terminam em '.com'
-SELECT nome, email FROM CLIENTES
+SELECT nome, email FROM CLIENTE
 WHERE email LIKE '%.com';
 
 --EXERCICIO 2
