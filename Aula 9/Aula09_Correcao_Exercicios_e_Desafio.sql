@@ -52,7 +52,7 @@ SELECT YEAR(data_pedido)   AS ano,
        MONTH(data_pedido)  AS mes,
        COUNT(*)            AS total_pedidos,
        SUM(total)          AS faturamento,
-       ROUND(AVG(total),2) AS ticket_medio
+       cast(AVG(total) as decimal(10, 2)) AS ticket_medio
 FROM   PEDIDO
 WHERE  status <> 'CANCELADO'                       -- filtra linhas ANTES do GROUP BY
 GROUP  BY YEAR(data_pedido), MONTH(data_pedido)
@@ -70,7 +70,7 @@ GO
 SELECT p.id_cliente,
        COUNT(*)             AS total_pedidos,
        SUM(p.total)         AS soma_gasta,
-       ROUND(AVG(p.total),2) AS media_pedido
+       cast(AVG(p.total) as decimal(10, 2)) AS media_pedido
 FROM   PEDIDO p
 WHERE  p.status <> 'CANCELADO'
 GROUP  BY p.id_cliente
@@ -83,7 +83,7 @@ SELECT c.id_cliente,
        c.nome,
        COUNT(*)              AS total_pedidos,
        SUM(p.total)          AS soma_gasta,
-       ROUND(AVG(p.total),2) AS media_pedido
+       cast(AVG(p.total) as decimal(10, 2)) AS media_pedido
 FROM   PEDIDO p
 JOIN   CLIENTE c ON c.id_cliente = p.id_cliente
 WHERE  p.status <> 'CANCELADO'
@@ -207,10 +207,10 @@ SELECT f.nome                                              AS vendedor,
        COUNT(CASE WHEN p.status = 'ENTREGUE' THEN 1 END)   AS pedidos_entregues,
        SUM(CASE WHEN p.status <> 'CANCELADO'
                 THEN p.total ELSE 0 END)                   AS faturamento,
-       ROUND(AVG(CASE WHEN p.status <> 'CANCELADO'
-                      THEN p.total END), 2)                AS ticket_medio,
-       ROUND(SUM(CASE WHEN p.status <> 'CANCELADO'
-                      THEN p.total ELSE 0 END) * 0.05, 2)  AS comissao_5pct
+       CAST(AVG(CASE WHEN p.status <> 'CANCELADO'
+                      THEN p.total END) AS DECIMAL(14,2))                AS ticket_medio,
+       CAST(SUM(CASE WHEN p.status <> 'CANCELADO'
+                      THEN p.total ELSE 0 END) * 0.05 AS DECIMAL(14,2))  AS comissao_5pct
 FROM   FUNCIONARIO f
 LEFT   JOIN PEDIDO p ON p.id_funcionario = f.id_funcionario
 GROUP  BY f.id_funcionario, f.nome
